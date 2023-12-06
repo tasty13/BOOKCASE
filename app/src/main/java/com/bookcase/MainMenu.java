@@ -34,7 +34,7 @@ public class MainMenu {
 
       switch (input) {
         case "1":
-          BoardMenu.execute();
+          ReviewMenu.execute();
           break;
         case "2":
           BookCaseMenu.execute();

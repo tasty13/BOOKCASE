@@ -1,6 +1,6 @@
 package com.bookcase;
 
-public class BoardMenu {
+public class ReviewMenu {
 
   static void execute() {
     printMenu();
