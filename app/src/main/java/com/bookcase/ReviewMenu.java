@@ -46,6 +46,19 @@ public class ReviewMenu {
   static void add(){
     System.out.println("등록");
 
+    if (length == reviews.length){
+      // 1. 새 사이즈 배열 만듦
+      // 2. 원래 배열 요소들 새 배열에 넣어줌
+      // 3. reviews 변수에 새 배열 주소 저장해줌
+      int oldSize = reviews.length;
+      int newSize = oldSize + oldSize / 2;
+      Review[] temp = new Review[newSize];
+      for (int i = 0; i < oldSize; i++) {
+        temp[i] = reviews[i];
+      }
+      reviews = temp;
+
+    }
     Review review = new Review();
     review.bookTitle = Prompt.input("책 이름? ");
     review.grade = Prompt.input("책 별점? ");
@@ -61,6 +74,7 @@ public class ReviewMenu {
       System.out.println("책 이름: " + review.bookTitle);
       System.out.println("책 별점: " + review.grade);
       System.out.println("책 후기: " + review.comment);
+      System.out.println("--------------------------------");
     }
 
   }
@@ -74,8 +88,13 @@ public class ReviewMenu {
   }
   static void delete(){
     System.out.println("삭제");
-//    review.bookTitle = "";
-//    review.grade = "";
-//    review.comment = "";
+    // 배열 앞쪽으로 하나씩 당김
+    // length 하나 줄여줌, 마지막 요소 null로 만듦
+    int index = Integer.parseInt(Prompt.input("번호: "));
+    for (int i = index; i<length-1; i++){
+      reviews[i] = reviews[i + 1];
+    }
+    length--;
+    reviews[length] = null;
   }
 }
