@@ -1,5 +1,9 @@
 package com.bookcase;
 
-public class BookCase {
+import java.util.List;
 
+public class BookCase {
+    String caseTitle;
+    boolean bookmark;
+//    List<String> books;
 }

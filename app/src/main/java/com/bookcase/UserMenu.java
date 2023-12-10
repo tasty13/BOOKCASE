@@ -1,15 +1,15 @@
 package com.bookcase;
 
-public class BookCaseMenu {
+public class UserMenu {
 
-    static BookCase bookCase = new BookCase();
+    static User user = new User();
 
     static void printMenu() {
-        System.out.println("[북케이스]");
-        System.out.println("1. 생성");
-        System.out.println("2. 조회");
-        System.out.println("3. 이름 변경");
-        System.out.println("4. 삭제");
+        System.out.println("[회원]");
+        System.out.println("1. 회원 추가");
+        System.out.println("2. 회원 조회");
+        System.out.println("3. 회원 변경");
+        System.out.println("4. 회원 삭제");
         System.out.println("0. 이전");
     }
     static void execute() {
@@ -43,17 +43,28 @@ public class BookCaseMenu {
     }
     static void add(){
         System.out.println("생성");
-        bookCase.caseTitle = Prompt.input("북케이스 이름? ");
+        user.email = Prompt.input("이메일? ");
+        user.name = Prompt.input("이름? ");
+        user.nick = Prompt.input("닉네임? ");
+        user.password = Prompt.input("비밀번호? ");
     }
     static void view(){
         System.out.println("조회");
-        System.out.println("북케이스 이름: " + bookCase.caseTitle);
+        System.out.println("이메일: " + user.email);
+        System.out.println("이름: " + user.name);
+        System.out.println("닉네임: " + user.nick);
     }
     static void modify(){
         System.out.println("이름 변경");
-        bookCase.caseTitle = Prompt.input("북케이스 이름(%s)? ", bookCase.caseTitle);
+        user.email = Prompt.input("이메일(%s)? ", user.email);
+        user.name = Prompt.input("이름(%s)? ", user.name);
+        user.nick = Prompt.input("닉네임(%s)? ", user.nick);
+        user.password = Prompt.input("비밀번호(%s)? ", user.password);
     }
     static void delete(){
-        bookCase.caseTitle = "";
+        user.email = "";
+        user.name = "";
+        user.nick = "";
+        user.password = "";
     }
 }
