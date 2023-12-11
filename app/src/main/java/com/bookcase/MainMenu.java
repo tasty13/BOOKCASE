@@ -9,7 +9,7 @@ public class MainMenu {
   static final String[] MENUS = {
       "1. 독서록",
       "2. 내 북케이스",
-      "3. 회원 추가",
+      "3. 회원",
       "4. 프로필",
       ANSI_RED + "0. 종료" + ANSI_CLEAR
   };

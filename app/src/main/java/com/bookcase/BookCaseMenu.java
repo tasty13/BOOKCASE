@@ -2,19 +2,20 @@ package com.bookcase;
 
 public class BookCaseMenu {
 
-    static BookCase[] bookCases = new BookCase[3];
-    static int length;
+  static BookCase[] bookCases = new BookCase[3];
+  static int length;
 
-    static void printMenu() {
-        System.out.println("[북케이스]");
-        System.out.println("1. 생성");
-        System.out.println("2. 조회");
-        System.out.println("3. 이름 변경");
-        System.out.println("4. 삭제");
-        System.out.println("0. 이전");
-    }
-    static void execute() {
-        printMenu();
+  static void printMenu() {
+    System.out.println("[북케이스]");
+    System.out.println("1. 생성");
+    System.out.println("2. 조회");
+    System.out.println("3. 이름 변경");
+    System.out.println("4. 삭제");
+    System.out.println("0. 이전");
+  }
+
+  static void execute() {
+    printMenu();
 
         while (true) {
             String input = Prompt.input("메인/북케이스> ");
