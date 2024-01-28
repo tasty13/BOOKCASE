@@ -1,4 +1,4 @@
-package com.bookcase;
+package com.bookcase.vo;
 
 public class Profile {
 
