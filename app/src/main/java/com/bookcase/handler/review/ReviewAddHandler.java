@@ -1,5 +1,6 @@
 package com.bookcase.handler.review;
 
+import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.Review;
 import com.util.Prompt;
@@ -10,8 +11,13 @@ public class ReviewAddHandler implements MenuHandler {
   ReviewRepository reviewRepository;
   Prompt prompt;
 
+  public ReviewAddHandler(ReviewRepository reviewRepository, Prompt prompt) {
+    this.reviewRepository = reviewRepository;
+    this.prompt = prompt;
+  }
+
   @Override
-  public void action() {
+  public void action(Menu menu) {
     System.out.println("등록");
 
     if (this.reviewRepository.length == this.reviewRepository.reviews.length){

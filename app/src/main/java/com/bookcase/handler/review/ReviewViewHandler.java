@@ -1,5 +1,6 @@
 package com.bookcase.handler.review;
 
+import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.Review;
 import com.util.Prompt;
@@ -15,7 +16,7 @@ public class ReviewViewHandler implements MenuHandler {
   }
 
   @Override
-  public void action() {
+  public void action(Menu menu) {
     for (int i=0;i<this.reviewRepository.length;i++){
       Review review = this.reviewRepository.reviews[i];
       System.out.println("책 이름: " + review.bookTitle);

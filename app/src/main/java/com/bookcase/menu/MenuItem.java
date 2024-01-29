@@ -1,5 +1,7 @@
 package com.bookcase.menu;
 
+import com.util.Prompt;
+
 public class MenuItem implements Menu{
 
   String title;
@@ -15,9 +17,9 @@ public class MenuItem implements Menu{
   }
 
   @Override
-  public void execute() {
+  public void execute(Prompt prompt) {
     if (this.menuHandler!=null){
-      this.menuHandler.action();
+      this.menuHandler.action(this);
     }
   }
 

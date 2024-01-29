@@ -1,5 +1,6 @@
 package com.bookcase.handler.review;
 
+import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.Review;
 import com.util.Prompt;
@@ -9,8 +10,13 @@ public class ReviewModifyHandler implements MenuHandler {
   ReviewRepository reviewRepository;
   Prompt prompt;
 
+  public ReviewModifyHandler(ReviewRepository reviewRepository, Prompt prompt) {
+    this.reviewRepository = reviewRepository;
+    this.prompt = prompt;
+  }
+
   @Override
-  public void action() {
+  public void action(Menu menu) {
     int index = Integer.parseInt(this.prompt.input("번호: "));
     Review review = this.reviewRepository.reviews[index];
     review.bookTitle = this.prompt.input("책 이름(%s)? ", review.bookTitle);

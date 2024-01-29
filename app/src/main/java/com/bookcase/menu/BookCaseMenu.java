@@ -58,7 +58,12 @@ public class BookCaseMenu implements Menu {
       }
   }
 
-  @Override
+    @Override
+    public void execute(Prompt prompt) {
+
+    }
+
+    @Override
   public String getTitle() {
     return null;
   }
