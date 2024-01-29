@@ -2,21 +2,22 @@ package com.bookcase.menu;
 
 import com.bookcase.vo.BookCase;
 import com.util.Prompt;
+import java.util.Date;
 
-public class BookCaseMenu {
+public class BookCaseMenu implements Menu {
 
   BookCase[] bookCases = new BookCase[3];
   int length;
   Prompt prompt;
   String title;
 
-    public BookCaseMenu(Prompt prompt, String title) {
-        this.prompt = prompt;
-        this.title = title;
-    }
+  public BookCaseMenu(Prompt prompt, String title) {
+    this.prompt = prompt;
+    this.title = title;
+  }
 
-    public void printMenu() {
-    System.out.printf("[%s]", this.title);
+  public void printMenu() {
+    System.out.printf("[%s]\n", this.title);
     System.out.println("1. 생성");
     System.out.println("2. 조회");
     System.out.println("3. 이름 변경");
@@ -25,38 +26,43 @@ public class BookCaseMenu {
     System.out.println("0. 이전");
   }
 
-  void execute() {
+  public void execute() {
     printMenu();
-
-        while (true) {
-            String input = this.prompt.input("메인/%s> ", this.title);
-            switch (input) {
-                case "1":
-                    this.add();
-                    break;
-                case "2":
-                    this.view();
-                    break;
-                case "3":
-                    this.modify();
-                    break;
-                case "4":
-                    this.delete();
-                    break;
-                case "5":
-                    this.list();
-                    break;
-                case "0":
-                    return;
-                case "menu":
-                    printMenu();
-                    break;
-                default:
-                    System.out.println("메뉴 번호가 옳지 않습니다.");
-                    break;
-            }
+      while (true) {
+        String input = this.prompt.input("메인/%s> ", this.title);
+        switch (input) {
+          case "1":
+            this.add();
+            break;
+          case "2":
+            this.view();
+            break;
+          case "3":
+            this.modify();
+            break;
+          case "4":
+            this.delete();
+            break;
+          case "5":
+            this.list();
+            break;
+          case "0":
+            return;
+          case "menu":
+            printMenu();
+            break;
+          default:
+            System.out.println("메뉴 번호가 옳지 않습니다.");
+            break;
         }
+      }
   }
+
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
   void add(){
     System.out.println("북케이스 생성");
     if (length == bookCases.length) {
@@ -74,16 +80,17 @@ public class BookCaseMenu {
 
     BookCase bookCase = new BookCase();
     bookCase.caseTitle = this.prompt.input("북케이스 이름? ");
+    bookCase.createdDate = new Date();
 
     bookCases[length] = bookCase;
     length++;
     }
 
     void list(){
-        System.out.printf("%s\n", "이름");
+        System.out.printf("-15%s\t%s\n", "이름", "생성 날짜");
         for (int i = 0; i < this.length; i++) {
             BookCase bookCase = this.bookCases[i];
-            System.out.printf("%s\n", bookCase.caseTitle);
+            System.out.printf("-15%s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
         }
     }
 
@@ -92,6 +99,7 @@ public class BookCaseMenu {
         for (int i=0;i<this.length;i++){
             BookCase bookCase = this.bookCases[i];
             System.out.println("북케이스 이름: " + bookCase.caseTitle);
+            System.out.println("북케이스 생성 날짜: "+bookCase.createdDate);
             System.out.println("--------------------------");
         }
     }

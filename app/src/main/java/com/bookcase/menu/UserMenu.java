@@ -3,8 +3,9 @@ package com.bookcase.menu;
 import com.bookcase.vo.Review;
 import com.util.Prompt;
 import com.bookcase.vo.User;
+import java.util.Date;
 
-public class UserMenu {
+public class UserMenu implements Menu {
 
   Prompt prompt;
   String title;
@@ -17,7 +18,7 @@ public class UserMenu {
   }
 
   public void printMenu() {
-    System.out.printf("[%s]", this.title);
+    System.out.printf("[%s]\n", this.title);
     System.out.println("1. 회원 추가");
     System.out.println("2. 회원 조회");
     System.out.println("3. 회원 변경");
@@ -44,6 +45,9 @@ public class UserMenu {
         case "4":
           delete();
           break;
+        case "5":
+          list();
+          break;
         case "0":
           return;
         case "menu":
@@ -56,7 +60,12 @@ public class UserMenu {
     }
   }
 
-  public void add() {
+  @Override
+  public String getTitle() {
+    return null;
+  }
+
+  void add() {
     System.out.println("유저 생성");
     if (this.length == this.users.length) {
       System.out.println("더 이상 추가할 수 없습니다.");
@@ -66,32 +75,35 @@ public class UserMenu {
     user.name = this.prompt.input("이름? ");
     user.nick = this.prompt.input("닉네임? ");
     user.password = this.prompt.input("비밀번호? ");
+    user.createdDate = new Date();
     this.users[this.length++] = user;
   }
 
   void list() {
     System.out.println("회원 목록:");
-    System.out.printf("%-10s\t%30s\n", "닉네임", "이메일");
+    System.out.printf("%-10s\t%30s\t%s\n", "닉네임", "이메일", "가입 날짜");
 
     for (int i = 0; i < this.length; i++) {
       User member = this.users[i];
-      System.out.printf("%-10s\t%30s\n", member.nick, member.email);
+      System.out.printf("%-10s\t%30s\t%3$tY-%3$tm-%3$td\n",
+          member.nick, member.email, member.createdDate);
     }
   }
 
-  public void view() {
+  void view() {
     System.out.println("유저 조회");
     for (int i = 0; i < this.length; i++) {
       User user = this.users[i];
       System.out.println("이메일: " + user.email);
       System.out.println("이름: " + user.name);
       System.out.println("닉네임: " + user.nick);
+      System.out.println("가입 날짜: " + user.createdDate);
       System.out.println("------------------------");
     }
 
   }
 
-  public void modify() {
+  void modify() {
     System.out.println("이름 변경");
     int index = Integer.parseInt(this.prompt.input("번호? "));
     User user = this.users[index];
@@ -101,7 +113,7 @@ public class UserMenu {
     user.password = this.prompt.input("비밀번호(%s)? ", user.password);
   }
 
-  public void delete() {
+  void delete() {
     System.out.println("유저 삭제");
     int index = Integer.parseInt(this.prompt.input("번호? "));
     // 1. 배열 한칸씩 땡김
