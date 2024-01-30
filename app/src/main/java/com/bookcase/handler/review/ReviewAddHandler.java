@@ -3,6 +3,7 @@ package com.bookcase.handler.review;
 import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.Review;
+import com.util.AnsiEscape;
 import com.util.Prompt;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ public class ReviewAddHandler implements MenuHandler {
 
   @Override
   public void action(Menu menu) {
-    System.out.println("등록");
+    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
     if (this.reviewRepository.length == this.reviewRepository.reviews.length){
       // 1. 새 사이즈 배열 만듦

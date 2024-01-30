@@ -3,6 +3,7 @@ package com.bookcase.handler.bookcase;
 import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.BookCase;
+import com.util.AnsiEscape;
 import com.util.Prompt;
 
 public class BookCaseListHandler implements MenuHandler {
@@ -15,6 +16,8 @@ public class BookCaseListHandler implements MenuHandler {
 
     @Override
     public void action(Menu menu) {
+        System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+
         System.out.printf("-15%s\t%s\n", "이름", "생성 날짜");
         for (int i = 0; i < this.bookCaseRepository.length; i++) {
             BookCase bookCase = this.bookCaseRepository.bookCases[i];

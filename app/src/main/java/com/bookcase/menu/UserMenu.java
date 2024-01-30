@@ -61,6 +61,11 @@ public class UserMenu implements Menu {
   }
 
   @Override
+  public void execute(Prompt prompt) {
+
+  }
+
+  @Override
   public String getTitle() {
     return null;
   }

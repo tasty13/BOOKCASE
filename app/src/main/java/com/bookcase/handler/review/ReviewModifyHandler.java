@@ -3,6 +3,7 @@ package com.bookcase.handler.review;
 import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.Review;
+import com.util.AnsiEscape;
 import com.util.Prompt;
 
 public class ReviewModifyHandler implements MenuHandler {
@@ -17,6 +18,8 @@ public class ReviewModifyHandler implements MenuHandler {
 
   @Override
   public void action(Menu menu) {
+    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+
     int index = Integer.parseInt(this.prompt.input("번호: "));
     Review review = this.reviewRepository.reviews[index];
     review.bookTitle = this.prompt.input("책 이름(%s)? ", review.bookTitle);
