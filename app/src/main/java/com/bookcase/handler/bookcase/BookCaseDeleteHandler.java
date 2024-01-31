@@ -19,11 +19,8 @@ public class BookCaseDeleteHandler implements MenuHandler {
         System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
         int index = Integer.parseInt(this.prompt.input("번호? "));
-        // 1. 배열 인덱스기준으로 한칸씩 앞으로 땡김
-        // 2. length 하나 줄임, 배열 마지막값 null
-        for (int i = index; i < this.bookCaseRepository.length - 1; i++) {
-            this.bookCaseRepository.bookCases[i] = this.bookCaseRepository.bookCases[i + 1];
+        if (bookCaseRepository.remove(index) == null) {
+            System.out.println("유효하지 않은 번호입니다.");
         }
-        this.bookCaseRepository.bookCases[--this.bookCaseRepository.length] = null;
     }
 }

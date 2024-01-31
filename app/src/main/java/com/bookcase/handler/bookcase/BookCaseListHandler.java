@@ -18,10 +18,9 @@ public class BookCaseListHandler implements MenuHandler {
     public void action(Menu menu) {
         System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
-        System.out.printf("-15%s\t%s\n", "이름", "생성 날짜");
-        for (int i = 0; i < this.bookCaseRepository.length; i++) {
-            BookCase bookCase = this.bookCaseRepository.bookCases[i];
-            System.out.printf("-15%s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
+        System.out.printf("%-15s\t%s\n", "이름", "생성 날짜");
+        for (BookCase bookCase : this.bookCaseRepository.toArray()) {
+            System.out.printf("%-15s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
         }
     }
 }

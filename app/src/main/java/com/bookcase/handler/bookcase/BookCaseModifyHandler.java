@@ -19,8 +19,17 @@ public class BookCaseModifyHandler implements MenuHandler {
     @Override
     public void action(Menu menu) {
         System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+
         int index = Integer.parseInt(this.prompt.input("번호? "));
-        BookCase bookCase = this.bookCaseRepository.bookCases[index];
-        bookCase.caseTitle = this.prompt.input("북케이스 이름(%s)? ", bookCase.caseTitle);
+        BookCase old = this.bookCaseRepository.get(index);
+        if (old == null) {
+            System.out.println("유효하지 않은 번호입니다.");
+            return;
+        }
+
+        BookCase bookCase = new BookCase();
+        bookCase.caseTitle = this.prompt.input("북케이스 이름(%s)? ", old.caseTitle);
+        bookCase.createdDate = old.createdDate;
+        bookCaseRepository.set(index, bookCase);
     }
 }

@@ -31,6 +31,7 @@ public class ReviewModifyHandler implements MenuHandler {
     review.bookTitle = this.prompt.input("책 이름(%s)? ", old.bookTitle);
     review.grade = this.prompt.input("책 별점(%s)? ", old.grade);
     review.comment = this.prompt.input("책 후기(%s)? ", old.comment);
+    review.createdDate = old.createdDate;
 
     this.reviewRepository.set(index, review);
   }
