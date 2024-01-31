@@ -20,9 +20,8 @@ public class ReviewDeleteHandler implements MenuHandler {
     System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
     int index = Integer.parseInt(this.prompt.input("번호: "));
-    for (int i = index; i<this.reviewRepository.length-1; i++){
-      this.reviewRepository.reviews[i] = this.reviewRepository.reviews[i + 1];
+    if (reviewRepository.remove(index) == null){
+      System.out.println("유효하지 않은 번호입니다.");
     }
-    this.reviewRepository.reviews[--this.reviewRepository.length] = null;
   }
 }

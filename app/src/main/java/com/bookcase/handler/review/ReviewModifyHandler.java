@@ -21,9 +21,17 @@ public class ReviewModifyHandler implements MenuHandler {
     System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
     int index = Integer.parseInt(this.prompt.input("번호: "));
-    Review review = this.reviewRepository.reviews[index];
-    review.bookTitle = this.prompt.input("책 이름(%s)? ", review.bookTitle);
-    review.grade = this.prompt.input("책 별점(%s)? ", review.grade);
-    review.comment = this.prompt.input("책 후기(%s)? ", review.comment);
+    Review old = this.reviewRepository.get(index);
+    if (old == null) {
+      System.out.println("유효하지 않은 번호입니다.");
+      return;
+    }
+
+    Review review = new Review();
+    review.bookTitle = this.prompt.input("책 이름(%s)? ", old.bookTitle);
+    review.grade = this.prompt.input("책 별점(%s)? ", old.grade);
+    review.comment = this.prompt.input("책 후기(%s)? ", old.comment);
+
+    this.reviewRepository.set(index, review);
   }
 }

@@ -21,12 +21,12 @@ public class ReviewViewHandler implements MenuHandler {
     System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
 
     int index = this.prompt.inputInt("번호? ");
-    if (index < 0 || index >= this.reviewRepository.length) {
+    Review review = this.reviewRepository.get(index);
+    if (review == null) {
       System.out.println("유효하지 않은 번호입니다.");
       return;
     }
 
-    Review review = this.reviewRepository.reviews[index];
     System.out.println("책 이름: " + review.bookTitle);
     System.out.println("책 별점: " + review.grade);
     System.out.println("책 후기: " + review.comment);
