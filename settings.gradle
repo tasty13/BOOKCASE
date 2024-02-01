@@ -11,4 +11,4 @@ plugins {
 }
 
 rootProject.name = 'bookcase'
-include('app')
+include('app-client')
