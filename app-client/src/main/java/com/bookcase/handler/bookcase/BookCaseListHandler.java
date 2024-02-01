@@ -1,26 +1,30 @@
 package com.bookcase.handler.bookcase;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.BookCaseDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.BookCase;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 
-public class BookCaseListHandler implements MenuHandler {
+import java.util.List;
 
-    BookCaseRepository bookCaseRepository;
+public class BookCaseListHandler extends AbstractMenuHandler {
 
-    public BookCaseListHandler(BookCaseRepository bookCaseRepository) {
-        this.bookCaseRepository = bookCaseRepository;
+    private BookCaseDao bookCaseDao;
+
+    public BookCaseListHandler(BookCaseDao bookCaseDao, Prompt prompt) {
+        super(prompt);
+        this.bookCaseDao = bookCaseDao;
     }
 
     @Override
-    public void action(Menu menu) {
-        System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+    public void action() {
+        System.out.printf("%-4s\t%-15s\t%s\n", "번호", "이름", "생성 날짜");
 
-        System.out.printf("%-15s\t%s\n", "이름", "생성 날짜");
-        for (BookCase bookCase : this.bookCaseRepository.toArray()) {
-            System.out.printf("%-15s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
+        List<BookCase> list = bookCaseDao.findAll();
+
+        for (BookCase bookCase : list) {
+            System.out.printf("%-4d\t%-15s\t%3$tY-%3$tm-%3$td\n",
+                    bookCase.getNo(), bookCase.getCaseTitle(), bookCase.getCreatedDate());
         }
     }
 }

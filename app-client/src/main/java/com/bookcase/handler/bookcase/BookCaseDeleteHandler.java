@@ -1,26 +1,24 @@
 package com.bookcase.handler.bookcase;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
-import com.util.AnsiEscape;
+import com.bookcase.dao.BookCaseDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.util.Prompt;
 
-public class BookCaseDeleteHandler implements MenuHandler {
-    BookCaseRepository bookCaseRepository;
-    Prompt prompt;
+public class BookCaseDeleteHandler extends AbstractMenuHandler {
+    private BookCaseDao bookCaseDao;
 
-    public BookCaseDeleteHandler(BookCaseRepository bookCaseRepository, Prompt prompt) {
-        this.bookCaseRepository = bookCaseRepository;
-        this.prompt = prompt;
+    public BookCaseDeleteHandler(BookCaseDao bookCaseDao, Prompt prompt) {
+        super(prompt);
+        this.bookCaseDao = bookCaseDao;
     }
 
     @Override
-    public void action(Menu menu) {
-        System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
-
-        int index = Integer.parseInt(this.prompt.input("번호? "));
-        if (bookCaseRepository.remove(index) == null) {
+    public void action() {
+        int no = this.prompt.inputInt("번호? ");
+        if (bookCaseDao.delete(no) == 0) {
             System.out.println("유효하지 않은 번호입니다.");
+        } else {
+            System.out.println("삭제했습니다!");
         }
     }
 }

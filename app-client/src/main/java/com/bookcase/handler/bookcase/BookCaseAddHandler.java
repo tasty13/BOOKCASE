@@ -1,33 +1,34 @@
 package com.bookcase.handler.bookcase;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.BookCaseDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.BookCase;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 
 import java.util.Date;
 
-public class BookCaseAddHandler implements MenuHandler {
+public class BookCaseAddHandler extends AbstractMenuHandler {
 
-    BookCaseRepository bookCaseRepository;
-    Prompt prompt;
+    private BookCaseDao bookCaseDao;
 
-    public BookCaseAddHandler(BookCaseRepository bookCaseRepository, Prompt prompt) {
-        this.bookCaseRepository = bookCaseRepository;
-        this.prompt = prompt;
+    public BookCaseAddHandler(BookCaseDao bookCaseDao, Prompt prompt) {
+        super(prompt);
+        this.bookCaseDao = bookCaseDao;
     }
 
     @Override
-    public void action(Menu menu) {
-        System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+    public void action() {
+        try {
+            BookCase bookCase = new BookCase();
+            bookCase.setCaseTitle(this.prompt.input("북케이스 이름? "));
+            bookCase.setCreatedDate(new Date());
 
+            bookCaseDao.add(bookCase);
+        } catch (Exception e) {
+            System.out.println("입력 중 오류 발생!");
+            System.out.println("다시 시도해 주세요.");
+        }
 
-        BookCase bookCase = new BookCase();
-        bookCase.caseTitle = this.prompt.input("북케이스 이름? ");
-        bookCase.createdDate = new Date();
-
-        this.bookCaseRepository.add(bookCase);
 
     }
 }

@@ -1,32 +1,34 @@
 package com.bookcase.handler.review;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.ReviewDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.Review;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 import java.util.Date;
 
-public class ReviewAddHandler implements MenuHandler {
+public class ReviewAddHandler extends AbstractMenuHandler {
 
-  ReviewRepository reviewRepository;
-  Prompt prompt;
+  private ReviewDao reviewDao;
 
-  public ReviewAddHandler(ReviewRepository reviewRepository, Prompt prompt) {
-    this.reviewRepository = reviewRepository;
-    this.prompt = prompt;
+  public ReviewAddHandler(ReviewDao reviewDao, Prompt prompt) {
+    super(prompt);
+    this.reviewDao = reviewDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+  public void action() {
+    try {
+      Review review = new Review();
+      review.setBookTitle(this.prompt.input("책 이름? "));
+      review.setScore(this.prompt.inputInt("책 별점? "));
+      review.setComment(this.prompt.input("책 후기? "));
+      review.setCreatedDate(new Date());
 
-    Review review = new Review();
-    review.bookTitle = this.prompt.input("책 이름? ");
-    review.grade = this.prompt.input("책 별점? ");
-    review.comment = this.prompt.input("책 후기? ");
-    review.createdDate = new Date();
+      this.reviewDao.add(review);
 
-    this.reviewRepository.add(review);
+    } catch (Exception e) {
+      System.out.println("입력 중 오류 발생!");
+      System.out.println("다시 시도해 주세요.");
+    }
   }
 }

@@ -1,27 +1,31 @@
 package com.bookcase.handler.review;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.ReviewDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.Review;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 
-public class ReviewListHandler implements MenuHandler {
+import java.util.List;
 
-  ReviewRepository reviewRepository;
+public class ReviewListHandler extends AbstractMenuHandler {
 
-  public ReviewListHandler(ReviewRepository reviewRepository) {
-    this.reviewRepository = reviewRepository;
+  private ReviewDao reviewDao;
+
+  public ReviewListHandler(ReviewDao reviewDao, Prompt prompt) {
+    super(prompt);
+    this.reviewDao = reviewDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+  public void action() {
+    System.out.printf("%-4s\t%-20s\t%s\t%-30s\t%s\n", "번호", "책 제목", "별점", "후기", "작성 날짜");
 
-    System.out.printf("%-20s\t%s\t%-30s\t%s\n", "책 제목", "별점", "후기", "작성 날짜");
-    for (Review review : this.reviewRepository.toArray()){
-      System.out.printf("%-20s\t%s\t%-30s\t%4$tY-%4$tm-%4$td\n",
-              review.bookTitle, review.grade, review.comment, review.createdDate);
+    List<Review> list = reviewDao.findAll();
+
+    for (Review review : list) {
+      System.out.printf("%-4d\t%-20s\t%s\t%-30s\t%5$tY-%5$tm-%5$td\n",
+              review.getNo(), review.getBookTitle(), review.getScore(),
+              review.getComment(), review.getCreatedDate());
     }
   }
 }

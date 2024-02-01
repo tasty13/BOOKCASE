@@ -1,38 +1,36 @@
 package com.bookcase.handler.review;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.ReviewDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.Review;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 
-public class ReviewModifyHandler implements MenuHandler {
+public class ReviewModifyHandler extends AbstractMenuHandler {
 
-  ReviewRepository reviewRepository;
-  Prompt prompt;
+  private ReviewDao reviewDao;
 
-  public ReviewModifyHandler(ReviewRepository reviewRepository, Prompt prompt) {
-    this.reviewRepository = reviewRepository;
-    this.prompt = prompt;
+  public ReviewModifyHandler(ReviewDao reviewDao, Prompt prompt) {
+    super(prompt);
+    this.reviewDao = reviewDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
-
-    int index = Integer.parseInt(this.prompt.input("번호: "));
-    Review old = this.reviewRepository.get(index);
+  public void action() {
+    int no = this.prompt.inputInt("번호? ");
+    Review old = reviewDao.findBy(no);
     if (old == null) {
       System.out.println("유효하지 않은 번호입니다.");
       return;
     }
 
     Review review = new Review();
-    review.bookTitle = this.prompt.input("책 이름(%s)? ", old.bookTitle);
-    review.grade = this.prompt.input("책 별점(%s)? ", old.grade);
-    review.comment = this.prompt.input("책 후기(%s)? ", old.comment);
-    review.createdDate = old.createdDate;
+    review.setNo(old.getNo());
+    review.setBookTitle(old.getBookTitle());
+    review.setScore(this.prompt.inputInt("책 별점(%d)? ", old.getScore()));
+    review.setComment(this.prompt.input("책 후기(%s)? ", old.getComment()));
+    review.setCreatedDate(old.getCreatedDate());
 
-    this.reviewRepository.set(index, review);
+    reviewDao.update(review);
+    System.out.println("변경사항을 저장했습니다.");
   }
 }

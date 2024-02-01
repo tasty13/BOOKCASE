@@ -1,27 +1,25 @@
 package com.bookcase.handler.review;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
-import com.util.AnsiEscape;
+import com.bookcase.dao.ReviewDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.util.Prompt;
 
-public class ReviewDeleteHandler implements MenuHandler {
+public class ReviewDeleteHandler extends AbstractMenuHandler {
 
-  ReviewRepository reviewRepository;
-  Prompt prompt;
+  private ReviewDao reviewDao;
 
-  public ReviewDeleteHandler(ReviewRepository reviewRepository, Prompt prompt) {
-    this.reviewRepository = reviewRepository;
-    this.prompt = prompt;
+  public ReviewDeleteHandler(ReviewDao reviewDao, Prompt prompt) {
+    super(prompt);
+    this.reviewDao = reviewDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
-
-    int index = Integer.parseInt(this.prompt.input("번호: "));
-    if (reviewRepository.remove(index) == null){
+  public void action() {
+    int no = this.prompt.inputInt("번호? ");
+    if (reviewDao.delete(no) == 0) {
       System.out.println("유효하지 않은 번호입니다.");
+    } else {
+      System.out.println("삭제했습니다!");
     }
   }
 }

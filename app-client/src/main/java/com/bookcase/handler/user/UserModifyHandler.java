@@ -1,30 +1,40 @@
 package com.bookcase.handler.user;
 
+import com.bookcase.dao.UserDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
+import com.bookcase.vo.Review;
 import com.bookcase.vo.User;
 import com.util.AnsiEscape;
 import com.util.Prompt;
 
-public class UserModifyHandler implements MenuHandler {
+public class UserModifyHandler extends AbstractMenuHandler {
 
-  UserRepository userRepository;
-  Prompt prompt;
+  private UserDao userDao;
 
-  public UserModifyHandler(UserRepository userRepository, Prompt prompt) {
-    this.userRepository = userRepository;
-    this.prompt = prompt;
+  public UserModifyHandler(UserDao userDao, Prompt prompt) {
+    super(prompt);
+    this.userDao = userDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+  public void action() {
+    int no = this.prompt.inputInt("번호? ");
+    User old = userDao.findBy(no);
+    if (old == null) {
+      System.out.println("유효하지 않은 번호입니다.");
+      return;
+    }
 
-    int index = Integer.parseInt(this.prompt.input("번호? "));
-    User user = this.userRepository.users[index];
-    user.email = this.prompt.input("이메일(%s)? ", user.email);
-    user.name = this.prompt.input("이름(%s)? ", user.name);
-    user.nick = this.prompt.input("닉네임(%s)? ", user.nick);
-    user.password = this.prompt.input("비밀번호(%s)? ", user.password);
+    User user = new User();
+    user.setEmail(this.prompt.input("이메일(%s)? ", old.getEmail()));
+    user.setName(this.prompt.input("이름(%s)? ", old.getName()));
+    user.setNick(this.prompt.input("닉네임(%s)? ", old.getNick()));
+    user.setPassword(this.prompt.input("비밀번호(%s)? ", old.getPassword()));
+    user.setCreatedDate(old.getCreatedDate());
+
+    userDao.update(user);
+    System.out.println("변경사항을 저장했습니다.");
   }
 }

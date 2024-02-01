@@ -1,30 +1,25 @@
 package com.bookcase.handler.user;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
-import com.util.AnsiEscape;
+import com.bookcase.dao.UserDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.util.Prompt;
 
-public class UserDeleteHandler implements MenuHandler {
+public class UserDeleteHandler extends AbstractMenuHandler {
 
-  UserRepository userRepository;
-  Prompt prompt;
+  private UserDao userDao;
 
-  public UserDeleteHandler(UserRepository userRepository, Prompt prompt) {
-    this.userRepository = userRepository;
-    this.prompt = prompt;
+  public UserDeleteHandler(UserDao userDao, Prompt prompt) {
+    super(prompt);
+    this.userDao = userDao;
   }
 
   @Override
-  public void action(Menu menu) {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
-
-    int index = Integer.parseInt(this.prompt.input("번호? "));
-    // 1. 배열 한칸씩 땡김
-    // 2. length--, 마지막 요소 null
-    for (int i = index; i < this.userRepository.length - 1; i++) {
-      this.userRepository.users[i] = this.userRepository.users[i + 1];
+  public void action() {
+    int no = this.prompt.inputInt("번호? ");
+    if (userDao.delete(no) == 0) {
+      System.out.println("유효하지 않은 번호입니다.");
+    } else {
+      System.out.println("삭제했습니다!");
     }
-    this.userRepository.users[--this.userRepository.length] = null;
   }
 }

@@ -1,35 +1,36 @@
 package com.bookcase.handler.bookcase;
 
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
+import com.bookcase.dao.BookCaseDao;
+import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.BookCase;
-import com.util.AnsiEscape;
 import com.util.Prompt;
 
-public class BookCaseModifyHandler implements MenuHandler {
+public class BookCaseModifyHandler extends AbstractMenuHandler {
 
-    BookCaseRepository bookCaseRepository;
-    Prompt prompt;
+    private BookCaseDao bookCaseDao;
 
-    public BookCaseModifyHandler(BookCaseRepository bookCaseRepository, Prompt prompt) {
-        this.bookCaseRepository = bookCaseRepository;
-        this.prompt = prompt;
+    public BookCaseModifyHandler(BookCaseDao bookCaseDao, Prompt prompt) {
+        super(prompt);
+        this.bookCaseDao = bookCaseDao;
     }
 
     @Override
-    public void action(Menu menu) {
-        System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
+    public void action() {
 
-        int index = Integer.parseInt(this.prompt.input("번호? "));
-        BookCase old = this.bookCaseRepository.get(index);
+        int no = this.prompt.inputInt("번호? ");
+
+        BookCase old = this.bookCaseDao.findBy(no);
         if (old == null) {
             System.out.println("유효하지 않은 번호입니다.");
             return;
         }
 
         BookCase bookCase = new BookCase();
-        bookCase.caseTitle = this.prompt.input("북케이스 이름(%s)? ", old.caseTitle);
-        bookCase.createdDate = old.createdDate;
-        bookCaseRepository.set(index, bookCase);
+        bookCase.setNo(old.getNo());
+        bookCase.setCaseTitle(this.prompt.input("북케이스 이름(%s)? ", old.getCaseTitle()));
+        bookCase.setCreatedDate(old.getCreatedDate());
+
+        bookCaseDao.update(bookCase);
+        System.out.println("변경사항을 저장했습니다.");
     }
 }
