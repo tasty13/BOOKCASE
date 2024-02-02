@@ -2,7 +2,6 @@ package com.bookcase.dao.mysql;
 
 import com.bookcase.dao.DaoException;
 import com.bookcase.dao.ReviewDao;
-import com.bookcase.vo.BookCase;
 import com.bookcase.vo.Review;
 
 import java.sql.Connection;

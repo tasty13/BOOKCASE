@@ -40,7 +40,7 @@ public class BookCaseDaoImpl implements BookCaseDao{
   }
 
   @Override
-  public List<BookCase> findAllByCaseNo() {
+  public List<BookCase> findAll() {
     try {
       Statement stmt = con.createStatement();
       ResultSet rs = stmt.executeQuery("select * from bookcases");

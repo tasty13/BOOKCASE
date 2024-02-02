@@ -8,7 +8,7 @@ public interface BookCaseDao {
 
   int delete(int no);
 
-  List<BookCase> findAllByCaseNo();
+  List<BookCase> findAll();
 
   BookCase findBy(int no);
 

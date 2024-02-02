@@ -20,7 +20,7 @@ public class BookCaseListHandler extends AbstractMenuHandler {
     public void action() {
         System.out.printf("%-4s\t%-15s\t%s\t%s\n", "번호", "이름", "북마크", "생성 날짜");
 
-        List<BookCase> list = bookCaseDao.findAllByCaseNo();
+        List<BookCase> list = bookCaseDao.findAll();
 
         for (BookCase bookCase : list) {
             System.out.printf("%-4d\t%-15s\t%b\t%4$tY-%4$tm-%4$td\n",

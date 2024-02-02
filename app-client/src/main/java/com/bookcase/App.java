@@ -1,13 +1,20 @@
 package com.bookcase;
 
+import com.bookcase.dao.BookBoardDao;
 import com.bookcase.dao.BookCaseDao;
 import com.bookcase.dao.BooksInCaseDao;
 import com.bookcase.dao.ReviewDao;
 import com.bookcase.dao.UserDao;
+import com.bookcase.dao.mysql.BookBoardDaoImpl;
 import com.bookcase.dao.mysql.BookCaseDaoImpl;
 import com.bookcase.dao.mysql.BooksInCaseDaoImpl;
 import com.bookcase.dao.mysql.ReviewDaoImpl;
 import com.bookcase.dao.mysql.UserDaoImpl;
+import com.bookcase.handler.bookboard.BookBoardAddHandler;
+import com.bookcase.handler.bookboard.BookBoardDeleteHandler;
+import com.bookcase.handler.bookboard.BookBoardListHandler;
+import com.bookcase.handler.bookboard.BookBoardModifyHandler;
+import com.bookcase.handler.bookboard.BookBoardViewHandler;
 import com.bookcase.handler.bookcase.*;
 import com.bookcase.handler.booksincase.BooksInCaseAddHandler;
 import com.bookcase.handler.booksincase.BooksInCaseDeleteHandler;
@@ -27,6 +34,7 @@ public class App {
   BookCaseDao bookCaseDao;
   UserDao userDao;
   BooksInCaseDao booksInCaseDao;
+  BookBoardDao bookBoardDao;
 
   MenuGroup mainMenu;
 
@@ -55,6 +63,7 @@ public class App {
       bookCaseDao = new BookCaseDaoImpl(con);
       userDao = new UserDaoImpl(con);
       booksInCaseDao = new BooksInCaseDaoImpl(con);
+      bookBoardDao = new BookBoardDaoImpl(con);
 
     } catch (Exception e) {
       System.out.println("통신 오류!");
@@ -77,9 +86,9 @@ public class App {
     bookCaseMenu.addItem("등록", new BookCaseAddHandler(bookCaseDao, prompt));
 
     MenuGroup booksInCaseMenu = bookCaseMenu.addGroup("조회");
+    booksInCaseMenu.addItem("목록", new BooksInCaseListHandler(booksInCaseDao, bookCaseDao, prompt));
     booksInCaseMenu.addItem("등록", new BooksInCaseAddHandler(booksInCaseDao, prompt));
     booksInCaseMenu.addItem("삭제", new BooksInCaseDeleteHandler(booksInCaseDao, prompt));
-    booksInCaseMenu.addItem("목록", new BooksInCaseListHandler(booksInCaseDao, bookCaseDao, prompt));
 
     bookCaseMenu.addItem("변경", new BookCaseModifyHandler(bookCaseDao, prompt));
     bookCaseMenu.addItem("삭제", new BookCaseDeleteHandler(bookCaseDao, prompt));
@@ -93,6 +102,16 @@ public class App {
     userMenu.addItem("변경", new UserModifyHandler(userDao, prompt));
     userMenu.addItem("삭제", new UserDeleteHandler(userDao, prompt));
     userMenu.addItem("목록", new UserListHandler(userDao, prompt));
+
+
+    MenuGroup bookBoardMenu = mainMenu.addGroup("중고장터");
+    bookBoardMenu.addItem("등록", new BookBoardAddHandler(bookBoardDao, prompt));
+    bookBoardMenu.addItem("조회", new BookBoardViewHandler(bookBoardDao, prompt));
+    bookBoardMenu.addItem("변경", new BookBoardModifyHandler(bookBoardDao, prompt));
+    bookBoardMenu.addItem("삭제", new BookBoardDeleteHandler(bookBoardDao, prompt));
+    bookBoardMenu.addItem("목록", new BookBoardListHandler(bookBoardDao, prompt));
+
+
   }
 
   void run() {

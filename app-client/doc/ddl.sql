@@ -108,3 +108,30 @@ update users
 delete from users where user_no=4;
 
 
+drop table book_boards;
+
+create table book_boards(
+  board_no int primary key auto_increment,
+  title varchar(255) not null,
+  content text not null,
+  writer varchar(30) not null,
+  created_date timestamp null default now()
+);
+
+insert into book_boards(title,content,writer) values('제목1','내용1','이름1');
+insert into book_boards(title,content,writer) values('제목2','내용2','이름2');
+insert into book_boards(title,content,writer) values('제목3','내용3','이름3');
+insert into book_boards(title,content,writer) values('제목4','내용4','이름4');
+insert into book_boards(title,content,writer) values('제목5','내용5','이름5');
+
+select * from book_boards;
+
+select * from book_boards where board_no = 3;
+
+update book_boards set
+  title='okok',
+  content='nono',
+  writer='hoho'
+where board_no=3;
+
+delete from book_boards where board_no=3;

@@ -1,5 +1,6 @@
 package com.util;
 
+import com.bookcase.enums.BookBoardStatus;
 import java.io.InputStream;
 import java.util.Scanner;
 
