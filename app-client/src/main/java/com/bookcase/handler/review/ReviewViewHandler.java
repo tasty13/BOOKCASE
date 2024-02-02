@@ -23,10 +23,10 @@ public class ReviewViewHandler extends AbstractMenuHandler {
       return;
     }
 
-    System.out.printf("번호: %s\n", review.getNo());
+    System.out.printf("번호: %d\n", review.getNo());
     System.out.printf("책 제목: %s\n", review.getBookTitle());
     System.out.printf("책 별점: %s\n", review.getScore());
     System.out.printf("책 후기: %s\n", review.getComment());
-    System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n", review.getCreatedDate());
+    System.out.printf("작성일: %1$tY-%1$tm-%1$td %1$tH:%1$tM\n", review.getCreatedDate());
   }
 }

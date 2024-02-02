@@ -18,7 +18,7 @@ public class BookCaseDeleteHandler extends AbstractMenuHandler {
         if (bookCaseDao.delete(no) == 0) {
             System.out.println("유효하지 않은 번호입니다.");
         } else {
-            System.out.println("삭제했습니다!");
+            System.out.println("삭제했습니다.");
         }
     }
 }

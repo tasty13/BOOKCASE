@@ -5,7 +5,7 @@ create table reviews(
     book_title varchar(255) not null,
     score int not null,
     comment text null,
-    created_date datetime null default now()
+    created_date timestamp null default now()
 );
 
 insert into reviews(book_title,score,comment) values('책제목1',5,'후기1');
@@ -30,7 +30,7 @@ create table bookcases(
    bookcase_no int primary key auto_increment,
    case_title varchar(255) not null,
    bookmark boolean not null default false,
-   created_date datetime null default now()
+   created_date timestamp null default now()
 );
 
 insert into bookcases(case_title) values('내 북케이스1');
@@ -45,7 +45,38 @@ select * from bookcases;
 
 update bookcases set case_title='바뀐북케이스이름3' where bookcase_no=3;
 
+update bookcases set bookmark=true where bookcase_no=3;
+
 delete from bookcases where bookcase_no=3;
+
+
+
+drop table books_in_case;
+
+create table books_in_case(
+    books_in_case_no int primary key auto_increment,
+    book_title varchar(255) not null,
+    bookcase_no int not null
+);
+
+ALTER TABLE books_in_case
+  ADD CONSTRAINT FK_bookcases_TO_books_in_case
+      FOREIGN KEY (
+          bookcase_no
+      )
+      REFERENCES bookcases (
+          bookcase_no
+      );
+
+insert into books_in_case(book_title, bookcase_no) values('책이름1',1);
+insert into books_in_case(book_title, bookcase_no) values('책이름2',1);
+insert into books_in_case(book_title, bookcase_no) values('책이름3',2);
+insert into books_in_case(book_title, bookcase_no) values('책이름4',4);
+insert into books_in_case(book_title, bookcase_no) values('책이름5',4);
+
+select * from books_in_case where bookcase_no=1;
+
+delete from books_in_case where books_in_case_no=3;
 
 
 
@@ -57,7 +88,7 @@ create table users(
   name varchar(20) not null,
   nick varchar(50) not null,
   password varchar(255) not null,
-  created_date datetime null default now()
+  created_date timestamp null default now()
 );
 
 insert into users(email, name, nick, password) values('user1@test.com','이름1','닉네임1',sha2('password1', 256));

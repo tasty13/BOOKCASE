@@ -5,6 +5,7 @@ import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.User;
 import com.util.Prompt;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class UserAddHandler extends AbstractMenuHandler {
@@ -23,9 +24,10 @@ public class UserAddHandler extends AbstractMenuHandler {
       user.setName(this.prompt.input("이름? "));
       user.setNick(this.prompt.input("닉네임? "));
       user.setPassword(this.prompt.input("비밀번호? "));
-      user.setCreatedDate(new Date());
+      user.setCreatedDate(LocalDateTime.now());
 
       this.userDao.add(user);
+      System.out.println("가입이 완료되었습니다.");
 
     } catch (Exception e) {
       System.out.println("입력 중 오류 발생!");

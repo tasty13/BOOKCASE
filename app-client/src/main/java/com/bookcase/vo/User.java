@@ -1,5 +1,6 @@
 package com.bookcase.vo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class User {
@@ -9,7 +10,7 @@ public class User {
     private String name;
     private String nick;
     private String password;
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
 
     public int getNo() {
@@ -51,11 +52,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 }

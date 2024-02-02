@@ -30,6 +30,6 @@ public class UserViewHandler extends AbstractMenuHandler {
     System.out.printf("이메일: %s\n", user.getEmail());
     System.out.printf("이름: %s\n", user.getName());
     System.out.printf("닉네임: %s\n", user.getNick());
-    System.out.printf("가입 날짜: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS\n",user.getCreatedDate());
+    System.out.printf("가입 날짜: %1$tY-%1$tm-%1$td\n",user.getCreatedDate());
   }
 }

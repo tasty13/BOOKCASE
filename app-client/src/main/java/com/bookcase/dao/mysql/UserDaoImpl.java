@@ -21,7 +21,9 @@ public class UserDaoImpl implements UserDao {
   public void add(User user) {
     try {
       Statement stmt = con.createStatement();
-      stmt.executeUpdate();
+      stmt.executeUpdate(String.format(
+          "insert into users(email, name, nick, password) values('%s','%s','%s',sha2('%s', 256))",
+          user.getEmail(), user.getName(), user.getNick(), user.getPassword()));
     } catch (Exception e) {
       throw new DaoException("데이터 입력 오류", e);
     }
@@ -32,7 +34,7 @@ public class UserDaoImpl implements UserDao {
   public int delete(int no) {
     try {
       Statement stmt = con.createStatement();
-      return stmt.executeUpdate();
+      return stmt.executeUpdate(String.format("delete from users where user_no=%d", no));
     } catch (Exception e) {
       throw new DaoException("데이터 불러오기 오류", e);
     }
@@ -42,16 +44,16 @@ public class UserDaoImpl implements UserDao {
   public List<User> findAll() {
     try {
       Statement stmt = con.createStatement();
-      ResultSet rs = stmt.executeQuery();
+      ResultSet rs = stmt.executeQuery("select * from users");
       List<User> list = new ArrayList<>();
 
       while (rs.next()) {
         User user = new User();
-        user.setNo(rs.getInt());
-        user.setEmail(rs.getString());
-        user.setName(rs.getString());
-        user.setNick(rs.getString());
-        user.setCreatedDate(rs.getDate());
+        user.setNo(rs.getInt("user_no"));
+        user.setEmail(rs.getString("email"));
+        user.setName(rs.getString("name"));
+        user.setNick(rs.getString("nick"));
+        user.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
         list.add(user);
       }
       return list;
@@ -65,14 +67,15 @@ public class UserDaoImpl implements UserDao {
   public User findBy(int no) {
     try {
       Statement stmt = con.createStatement();
-      ResultSet rs = stmt.executeQuery();
+      ResultSet rs = stmt.executeQuery(String.format("select * from users where user_no=%d", no));
 
       if (rs.next()) {
         User user = new User();
-        user.setNo(rs.getInt());
-        user.setEmail(rs.getString());
-        user.setName(rs.getString());
-        user.setCreatedDate(rs.getDate());
+        user.setNo(rs.getInt("user_no"));
+        user.setEmail(rs.getString("email"));
+        user.setName(rs.getString("name"));
+        user.setNick(rs.getString("nick"));
+        user.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
         return user;
       }
       return null;
@@ -86,8 +89,12 @@ public class UserDaoImpl implements UserDao {
   public int update(User user) {
     try {
       Statement stmt = con.createStatement();
-      return stmt.executeUpdate();
+      return stmt.executeUpdate(String.format(
+          "update users set email='%s',name='%s',nick='%s',password=sha2('%s',256) where user_no=%d;",
+          user.getEmail(), user.getName(), user.getNick(), user.getPassword(), user.getNo()
+      ));
     } catch (Exception e) {
+
       throw new DaoException("데이터 불러오기 오류", e);
     }
   }

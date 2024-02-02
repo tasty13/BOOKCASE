@@ -18,14 +18,13 @@ public class ReviewListHandler extends AbstractMenuHandler {
 
   @Override
   public void action() {
-    System.out.printf("%-4s\t%-20s\t%s\t%-30s\t%s\n", "번호", "책 제목", "별점", "후기", "작성 날짜");
+    System.out.printf("%-4s\t%-20s\t%s\t%s\n", "번호", "책 제목", "별점", "작성 날짜");
 
     List<Review> list = reviewDao.findAll();
-
     for (Review review : list) {
-      System.out.printf("%-4d\t%-20s\t%s\t%-30s\t%5$tY-%5$tm-%5$td\n",
+      System.out.printf("%-4d\t%-20s\t%s\t%4$tY-%4$tm-%4$td\n",
               review.getNo(), review.getBookTitle(), review.getScore(),
-              review.getComment(), review.getCreatedDate());
+              review.getCreatedDate());
     }
   }
 }

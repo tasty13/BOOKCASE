@@ -1,5 +1,6 @@
 package com.bookcase.vo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ public class BookCase {
     private int no;
     private String caseTitle;
     private boolean bookmark;
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     public int getNo() {
         return no;
@@ -34,11 +35,11 @@ public class BookCase {
         this.bookmark = bookmark;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 }

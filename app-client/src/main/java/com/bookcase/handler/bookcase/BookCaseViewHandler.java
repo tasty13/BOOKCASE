@@ -23,8 +23,8 @@ public class BookCaseViewHandler extends AbstractMenuHandler {
             return;
         }
 
-        System.out.println("번호: " + bookCase.getNo());
-        System.out.println("이름: " + bookCase.getCaseTitle());
-        System.out.println("생성 날짜: "+bookCase.getCreatedDate());
+        System.out.printf("번호: %d\n", bookCase.getNo());
+        System.out.printf("이름: %s\n", bookCase.getCaseTitle());
+        System.out.printf("생성 날짜: %1$tY-%1$tm-%1$td\n", bookCase.getCreatedDate());
     }
 }

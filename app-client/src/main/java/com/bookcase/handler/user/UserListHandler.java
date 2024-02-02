@@ -22,14 +22,12 @@ public class UserListHandler extends AbstractMenuHandler {
 
   @Override
   public void action() {
-    System.out.printf(AnsiEscape.ANSI_BOLD + "[%s]\n" + AnsiEscape.ANSI_CLEAR, menu.getTitle());
-
-    System.out.printf("%-4s\t%-10s\t%30s\t%s\n", "번호", "닉네임", "이메일", "가입 날짜");
+    System.out.printf("%-4s\t%-30s\t%10s\t%10s\t%s\n", "번호", "이메일", "이름", "닉네임", "가입 날짜");
     List<User> list = userDao.findAll();
 
     for (User user : list){
-      System.out.printf("%-4d\t%-10s\t%30s\t%4$tY-%4$tm-%4$td\n",
-              user.getNo(), user.getNick(), user.getEmail(), user.getCreatedDate());
+      System.out.printf("%-4s\t%-30s\t%10s\t%10s\t%5$tY-%5$tm-%5$td\n",
+              user.getNo(), user.getEmail(), user.getName(), user.getNick(), user.getCreatedDate());
     }
   }
 }

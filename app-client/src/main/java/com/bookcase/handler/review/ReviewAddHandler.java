@@ -4,6 +4,7 @@ import com.bookcase.dao.ReviewDao;
 import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.Review;
 import com.util.Prompt;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class ReviewAddHandler extends AbstractMenuHandler {
@@ -22,9 +23,10 @@ public class ReviewAddHandler extends AbstractMenuHandler {
       review.setBookTitle(this.prompt.input("책 이름? "));
       review.setScore(this.prompt.inputInt("책 별점? "));
       review.setComment(this.prompt.input("책 후기? "));
-      review.setCreatedDate(new Date());
+      review.setCreatedDate(LocalDateTime.now());
 
       this.reviewDao.add(review);
+      System.out.println("등록했습니다.");
 
     } catch (Exception e) {
       System.out.println("입력 중 오류 발생!");

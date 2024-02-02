@@ -1,5 +1,6 @@
 package com.bookcase.vo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Review {
@@ -8,7 +9,7 @@ public class Review {
     private String bookTitle;
     private int score;
     private String comment;
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     public int getNo() {
         return no;
@@ -42,11 +43,11 @@ public class Review {
         this.comment = comment;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 }
