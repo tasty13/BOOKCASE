@@ -24,105 +24,61 @@ import com.bookcase.handler.user.*;
 import com.bookcase.menu.MenuGroup;
 import com.util.Prompt;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import org.apache.catalina.WebResourceRoot;
+import org.apache.catalina.connector.Connector;
+import org.apache.catalina.core.StandardContext;
+import org.apache.catalina.startup.Tomcat;
+import org.apache.catalina.webresources.DirResourceSet;
+import org.apache.catalina.webresources.StandardRoot;
 
 public class App {
 
-  Prompt prompt = new Prompt(System.in);
-  ReviewDao reviewDao;
-  BookCaseDao bookCaseDao;
-  UserDao userDao;
-  BooksInCaseDao booksInCaseDao;
-  BookBoardDao bookBoardDao;
+  public static void main(String[] args) throws Exception {
+    System.out.println("북케이스 서버 실행!");
 
-  MenuGroup mainMenu;
+    // 톰캣 서버를 구동시키는 객체 준비
+    Tomcat tomcat = new Tomcat();
 
-  App() {
-    prepareDatabase();
-    prepareMenu();
-  }
+    // 서버의 포트 번호 설정
+    tomcat.setPort(8888);
 
-  // 애플리케이션 객체 App 실행할 떄 다음 변수를 미리 준비해 둔다.
-  // -> 속도 빨라짐!
-  public static void main(String[] args) {
-    System.out.println("[북케이스]");
-    new App().run();
-  }
+    // 톰캣 서버를 실행하는 동안 사용할 임시 폴더 지정
+    tomcat.setBaseDir("./temp");
 
-  private void prepareDatabase() {
-    try {
-      // JVM이 JDBC 드라이버 파일(.jar)에 설정된대로 자동으로 처리한다.
-//      Driver driver = new com.mysql.cj.jdbc.Driver();
-//      DriverManager.registerDriver(driver);
+    // 톰캣 서버의 연결 정보를 설정
+    Connector connector = tomcat.getConnector();
+    connector.setURIEncoding("UTF-8");
 
-      Connection con = DriverManager.getConnection(
-              "jdbc:mysql://db-ld2a9-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
+    // 톰캣 서버에 배포할 웹 애플리케이션의 환경 정보 준비
+    StandardContext ctx = (StandardContext) tomcat.addWebapp(
+        "/", // 컨텍스트 경로(웹 애플리케이션 경로)
+        new File("src/main/webapp").getAbsolutePath() // 웹 애플리케이션 파일이 있는 실제 경로
+    );
+    ctx.setReloadable(true);
 
-      reviewDao = new ReviewDaoImpl(con);
-      bookCaseDao = new BookCaseDaoImpl(con);
-      userDao = new UserDaoImpl(con);
-      booksInCaseDao = new BooksInCaseDaoImpl(con);
-      bookBoardDao = new BookBoardDaoImpl(con);
+    // 웹 애플리케이션 기타 정보 설정
+    WebResourceRoot resources = new StandardRoot(ctx);
 
-    } catch (Exception e) {
-      System.out.println("통신 오류!");
-      e.printStackTrace();
-    }
-  }
+    // 웹 애플리케이션의 서블릿 클래스 등록
+    resources.addPreResources(new DirResourceSet(
+        resources, // 루트 웹 애플리케이션 정보
+        "/WEB-INF/classes", // 서블릿 클래스 파일의 위치 정보
+        new File("build/classes/java/main").getAbsolutePath(), // 서블릿 클래스 파일이 있는 실제 경로
+        "/" // 웹 애플리케이션 내부 경로
+    ));
 
-  private void prepareMenu() {
-    mainMenu = MenuGroup.getInstance("메인");
+    // 웹 애플리케이션 설정 정보를 웹 애플리케이션 환경 정보에 등록
+    ctx.setResources(resources);
 
-    MenuGroup reviewMenu = mainMenu.addGroup("독서록");
-    reviewMenu.addItem("등록", new ReviewAddHandler(reviewDao, prompt));
-    reviewMenu.addItem("조회", new ReviewViewHandler(reviewDao, prompt));
-    reviewMenu.addItem("변경", new ReviewModifyHandler(reviewDao, prompt));
-    reviewMenu.addItem("삭제", new ReviewDeleteHandler(reviewDao, prompt));
-    reviewMenu.addItem("목록", new ReviewListHandler(reviewDao, prompt));
+    // 톰캣 서버 구동
+    tomcat.start();
 
+    // 톰캣 서버를 구동한 후 종료될 때까지 JVM을 끝내지 말고 기다린다.
+    tomcat.getServer().await();
 
-    MenuGroup bookCaseMenu = mainMenu.addGroup("북케이스");
-    bookCaseMenu.addItem("등록", new BookCaseAddHandler(bookCaseDao, prompt));
-
-    MenuGroup booksInCaseMenu = bookCaseMenu.addGroup("조회");
-    booksInCaseMenu.addItem("목록", new BooksInCaseListHandler(booksInCaseDao, bookCaseDao, prompt));
-    booksInCaseMenu.addItem("등록", new BooksInCaseAddHandler(booksInCaseDao, prompt));
-    booksInCaseMenu.addItem("삭제", new BooksInCaseDeleteHandler(booksInCaseDao, prompt));
-
-    bookCaseMenu.addItem("변경", new BookCaseModifyHandler(bookCaseDao, prompt));
-    bookCaseMenu.addItem("삭제", new BookCaseDeleteHandler(bookCaseDao, prompt));
-    bookCaseMenu.addItem("목록", new BookCaseListHandler(bookCaseDao, prompt));
-    bookCaseMenu.addItem("북마크", new BookCaseBookmarkHandler(bookCaseDao, prompt));
-
-
-    MenuGroup userMenu = mainMenu.addGroup("회원");
-    userMenu.addItem("등록", new UserAddHandler(userDao, prompt));
-    userMenu.addItem("조회", new UserViewHandler(userDao, prompt));
-    userMenu.addItem("변경", new UserModifyHandler(userDao, prompt));
-    userMenu.addItem("삭제", new UserDeleteHandler(userDao, prompt));
-    userMenu.addItem("목록", new UserListHandler(userDao, prompt));
-
-
-    MenuGroup bookBoardMenu = mainMenu.addGroup("중고장터");
-    bookBoardMenu.addItem("등록", new BookBoardAddHandler(bookBoardDao, prompt));
-    bookBoardMenu.addItem("조회", new BookBoardViewHandler(bookBoardDao, prompt));
-    bookBoardMenu.addItem("변경", new BookBoardModifyHandler(bookBoardDao, prompt));
-    bookBoardMenu.addItem("삭제", new BookBoardDeleteHandler(bookBoardDao, prompt));
-    bookBoardMenu.addItem("목록", new BookBoardListHandler(bookBoardDao, prompt));
-
-
-  }
-
-  void run() {
-    while (true) {
-      try {
-        mainMenu.execute(prompt);
-        prompt.close();
-        break;
-      } catch (Exception e) {
-        System.out.println("예외 발생!");
-      }
-    }
+    System.out.println("서버 종료!");
   }
 }

@@ -28,6 +28,7 @@ public class UserModifyHandler extends AbstractMenuHandler {
     }
 
     User user = new User();
+    user.setNo(old.getNo());
     user.setEmail(this.prompt.input("이메일(%s)? ", old.getEmail()));
     user.setName(this.prompt.input("이름(%s)? ", old.getName()));
     user.setNick(this.prompt.input("닉네임(%s)? ", old.getNick()));

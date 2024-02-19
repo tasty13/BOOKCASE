@@ -1,6 +1,5 @@
 package com.bookcase.dao;
 
-import com.bookcase.vo.BookCase;
 import com.bookcase.vo.User;
 import java.util.List;
 
@@ -12,6 +11,8 @@ public interface UserDao {
   List<User> findAll();
 
   User findBy(int no);
+
+  User findByEmailAndPassword(String email, String password);
 
   int update(User user);
 }
