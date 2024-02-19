@@ -22,7 +22,7 @@ public class LoginServlet extends GenericServlet {
 
   public LoginServlet() {
     DBConnectionPool connectionPool = new DBConnectionPool(
-        "jdbc:mysql://localhost/studydb", "study", "Bitcamp!@#123");
+        "jdbc:mysql://db-ld2a9-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
     this.userDao = new UserDaoImpl(connectionPool);
   }
 

@@ -105,18 +105,16 @@ public class UserDaoImpl implements UserDao {
   public User findByEmailAndPassword(String email, String password) {
     try (Connection con = connectionPool.getConnection();
         PreparedStatement pstmt = con.prepareStatement(
-        "select member_no, email, name, created_date from members"
-            + " where email=? and password=sha2(?,256)")) {
+        "select user_no, email, name, created_date from users where email=? and password=sha2(?,256)")) {
       pstmt.setString(1, email);
       pstmt.setString(2, password);
 
       try (ResultSet rs = pstmt.executeQuery()) {
         if (rs.next()) {
           User user = new User();
-          user.setNo(rs.getInt("no"));
+          user.setNo(rs.getInt("user_no"));
           user.setEmail(rs.getString("email"));
           user.setName(rs.getString("name"));
-          user.setNick(rs.getString("nick"));
           user.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
 
           return user;
