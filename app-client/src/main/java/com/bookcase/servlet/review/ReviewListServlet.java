@@ -19,22 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/review/list")
-public class ReviewListServlet extends GenericServlet {
+public class ReviewListServlet extends HttpServlet {
 
   private ReviewDao reviewDao;
 
-  public ReviewListServlet() {
-    DBConnectionPool connectionPool = new DBConnectionPool(
-            "jdbc:mysql://db-ld2a9-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
-    this.reviewDao = new ReviewDaoImpl(connectionPool);
+  @Override
+  public void init() throws ServletException {
+    this.reviewDao = (ReviewDao) this.getServletContext().getAttribute("reviewDao");
   }
 
   @Override
-  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+  public void service(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
-
-    HttpServletRequest request = (HttpServletRequest) servletRequest;
-    HttpServletResponse response = (HttpServletResponse) servletResponse;
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
