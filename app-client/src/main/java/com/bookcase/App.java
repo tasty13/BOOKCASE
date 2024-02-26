@@ -1,32 +1,6 @@
 package com.bookcase;
 
-import com.bookcase.dao.BookBoardDao;
-import com.bookcase.dao.BookCaseDao;
-import com.bookcase.dao.BooksInCaseDao;
-import com.bookcase.dao.ReviewDao;
-import com.bookcase.dao.UserDao;
-import com.bookcase.dao.mysql.BookBoardDaoImpl;
-import com.bookcase.dao.mysql.BookCaseDaoImpl;
-import com.bookcase.dao.mysql.BooksInCaseDaoImpl;
-import com.bookcase.dao.mysql.ReviewDaoImpl;
-import com.bookcase.dao.mysql.UserDaoImpl;
-import com.bookcase.handler.bookboard.BookBoardAddHandler;
-import com.bookcase.handler.bookboard.BookBoardDeleteHandler;
-import com.bookcase.handler.bookboard.BookBoardListHandler;
-import com.bookcase.handler.bookboard.BookBoardModifyHandler;
-import com.bookcase.handler.bookboard.BookBoardViewHandler;
-import com.bookcase.handler.bookcase.*;
-import com.bookcase.handler.booksincase.BooksInCaseAddHandler;
-import com.bookcase.handler.booksincase.BooksInCaseDeleteHandler;
-import com.bookcase.handler.booksincase.BooksInCaseListHandler;
-import com.bookcase.handler.review.*;
-import com.bookcase.handler.user.*;
-import com.bookcase.menu.MenuGroup;
-import com.util.Prompt;
-
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import org.apache.catalina.WebResourceRoot;
 import org.apache.catalina.connector.Connector;
 import org.apache.catalina.core.StandardContext;

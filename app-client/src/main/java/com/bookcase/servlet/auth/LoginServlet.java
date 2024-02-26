@@ -16,18 +16,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/auth/login")
-public class LoginServlet extends GenericServlet {
+public class LoginServlet extends HttpServlet {
 
   UserDao userDao;
 
-  public LoginServlet() {
-    DBConnectionPool connectionPool = new DBConnectionPool(
-        "jdbc:mysql://localhost/studydb", "study", "Bitcamp!@#123");
-    this.userDao = new UserDaoImpl(connectionPool);
+  @Override
+  public void init() {
+    this.userDao = (UserDao) this.getServletContext().getAttribute("userDao");
   }
 
   @Override
-  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+  public void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse)
       throws ServletException, IOException {
 
     HttpServletRequest request = (HttpServletRequest) servletRequest;

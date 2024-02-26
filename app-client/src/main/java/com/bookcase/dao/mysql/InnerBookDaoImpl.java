@@ -1,8 +1,8 @@
 package com.bookcase.dao.mysql;
 
-import com.bookcase.dao.BooksInCaseDao;
+import com.bookcase.dao.InnerBookDao;
 import com.bookcase.dao.DaoException;
-import com.bookcase.vo.BooksInCase;
+import com.bookcase.vo.InnerBook;
 import com.util.DBConnectionPool;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,22 +10,22 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BooksInCaseDaoImpl implements BooksInCaseDao {
+public class InnerBookDaoImpl implements InnerBookDao {
 
   DBConnectionPool connectionPool;
 
-  public BooksInCaseDaoImpl(DBConnectionPool connectionPool) {
+  public InnerBookDaoImpl(DBConnectionPool connectionPool) {
     this.connectionPool = connectionPool;
   }
 
   @Override
-  public void add(BooksInCase booksInCase) {
+  public void add(InnerBook innerBook) {
     try (Connection con = connectionPool.getConnection();
         PreparedStatement pstmt = con.prepareStatement(
         "insert into books_in_case(book_title, bookcase_no) values(?,?)")) {
 
-      pstmt.setString(1, booksInCase.getBookTitle());
-      pstmt.setInt(2, booksInCase.getBookCaseNo());
+      pstmt.setString(1, innerBook.getBookTitle());
+      pstmt.setInt(2, innerBook.getBookCaseNo());
 
       pstmt.executeUpdate();
 
@@ -49,20 +49,20 @@ public class BooksInCaseDaoImpl implements BooksInCaseDao {
   }
 
   @Override
-  public List<BooksInCase> findAllByCaseNo(int caseNo) {
+  public List<InnerBook> findAllByCaseNo(int caseNo) {
     try (Connection con = connectionPool.getConnection();
         PreparedStatement pstmt = con.prepareStatement(
         "select * from books_in_case where bookcase_no=?")) {
 
       pstmt.setInt(1, caseNo);
       try (ResultSet rs = pstmt.executeQuery()) {
-        List<BooksInCase> list = new ArrayList<>();
+        List<InnerBook> list = new ArrayList<>();
 
         while (rs.next()) {
-          BooksInCase booksInCase = new BooksInCase();
-          booksInCase.setNo(rs.getInt("books_in_case_no"));
-          booksInCase.setBookTitle(rs.getString("book_title"));
-          list.add(booksInCase);
+          InnerBook innerBook = new InnerBook();
+          innerBook.setNo(rs.getInt("books_in_case_no"));
+          innerBook.setBookTitle(rs.getString("book_title"));
+          list.add(innerBook);
         }
         return list;
       }

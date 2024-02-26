@@ -1,21 +1,21 @@
 package com.bookcase.handler.booksincase;
 
 import com.bookcase.dao.BookCaseDao;
-import com.bookcase.dao.BooksInCaseDao;
+import com.bookcase.dao.InnerBookDao;
 import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.BookCase;
-import com.bookcase.vo.BooksInCase;
+import com.bookcase.vo.InnerBook;
 import com.util.Prompt;
 import java.util.List;
 
 public class BooksInCaseListHandler extends AbstractMenuHandler {
 
-  BooksInCaseDao booksInCaseDao;
+  InnerBookDao innerBookDao;
   BookCaseDao bookCaseDao;
 
-  public BooksInCaseListHandler(BooksInCaseDao booksInCaseDao,BookCaseDao bookCaseDao, Prompt prompt) {
+  public BooksInCaseListHandler(InnerBookDao innerBookDao,BookCaseDao bookCaseDao, Prompt prompt) {
     super(prompt);
-    this.booksInCaseDao = booksInCaseDao;
+    this.innerBookDao = innerBookDao;
     this.bookCaseDao = bookCaseDao;
 
   }
@@ -31,11 +31,11 @@ public class BooksInCaseListHandler extends AbstractMenuHandler {
 
     System.out.printf("%-4s\t%-30s\n", "번호", "책 제목");
 
-    List<BooksInCase> list = booksInCaseDao.findAllByCaseNo(bookCase.getNo());
+    List<InnerBook> list = innerBookDao.findAllByCaseNo(bookCase.getNo());
 
-    for (BooksInCase booksInCase : list) {
+    for (InnerBook innerBook : list) {
       System.out.printf("%-4d\t%-30s\n",
-          booksInCase.getNo(), booksInCase.getBookTitle());
+          innerBook.getNo(), innerBook.getBookTitle());
     }
   }
 }

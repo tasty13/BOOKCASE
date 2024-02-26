@@ -1,8 +1,6 @@
 package com.bookcase.vo;
 
-import java.util.Date;
-
-public class BooksInCase {
+public class InnerBook {
   private int no;
   private String bookTitle;
   private int bookCaseNo;

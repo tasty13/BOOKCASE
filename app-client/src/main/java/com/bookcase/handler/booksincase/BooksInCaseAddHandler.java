@@ -1,29 +1,27 @@
 package com.bookcase.handler.booksincase;
 
-import com.bookcase.dao.BooksInCaseDao;
+import com.bookcase.dao.InnerBookDao;
 import com.bookcase.menu.AbstractMenuHandler;
-import com.bookcase.vo.BookCase;
-import com.bookcase.vo.BooksInCase;
+import com.bookcase.vo.InnerBook;
 import com.util.Prompt;
-import java.util.Date;
 
 public class BooksInCaseAddHandler extends AbstractMenuHandler {
 
-  BooksInCaseDao booksInCaseDao;
+  InnerBookDao innerBookDao;
 
-  public BooksInCaseAddHandler(BooksInCaseDao booksInCaseDao, Prompt prompt) {
+  public BooksInCaseAddHandler(InnerBookDao innerBookDao, Prompt prompt) {
     super(prompt);
-    this.booksInCaseDao = booksInCaseDao;
+    this.innerBookDao = innerBookDao;
   }
 
   @Override
   protected void action() {
     try {
-      BooksInCase booksInCase = new BooksInCase();
-      booksInCase.setBookTitle(this.prompt.input("책 제목? "));
-      booksInCase.setBookCaseNo(this.prompt.inputInt("북케이스 번호? "));
+      InnerBook innerBook = new InnerBook();
+      innerBook.setBookTitle(this.prompt.input("책 제목? "));
+      innerBook.setBookCaseNo(this.prompt.inputInt("북케이스 번호? "));
 
-      booksInCaseDao.add(booksInCase);
+      innerBookDao.add(innerBook);
       System.out.println("등록했습니다.");
 
     } catch (Exception e) {
