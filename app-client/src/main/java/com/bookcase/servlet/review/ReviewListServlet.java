@@ -1,31 +1,40 @@
 package com.bookcase.servlet.review;
 
 import com.bookcase.dao.ReviewDao;
+import com.bookcase.dao.mysql.ReviewDaoImpl;
 import com.bookcase.menu.AbstractMenuHandler;
 import com.bookcase.vo.Review;
+import com.util.DBConnectionPool;
 import com.util.Prompt;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/review/list")
-public class ReviewListServlet extends HttpServlet {
+public class ReviewListServlet extends GenericServlet {
 
   private ReviewDao reviewDao;
 
-  @Override
-  public void init() {
-    this.reviewDao = (ReviewDao) this.getServletContext().getAttribute("reviewDao");
+  public ReviewListServlet() {
+    DBConnectionPool connectionPool = new DBConnectionPool(
+            "jdbc:mysql://db-ld2a9-kr.vpc-pub-cdb.ntruss.com/studydb", "study", "Bitcamp!@#123");
+    this.reviewDao = new ReviewDaoImpl(connectionPool);
   }
 
   @Override
-  protected void service(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  public void service(ServletRequest servletRequest, ServletResponse servletResponse)
+          throws ServletException, IOException {
+
+    HttpServletRequest request = (HttpServletRequest) servletRequest;
+    HttpServletResponse response = (HttpServletResponse) servletResponse;
 
     response.setContentType("text/html;charset=UTF-8");
     PrintWriter out = response.getWriter();
