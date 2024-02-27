@@ -11,6 +11,17 @@ public class Review {
     private String comment;
     private LocalDateTime createdDate;
 
+    @Override
+    public String toString() {
+        return "Review{" +
+            "no=" + no +
+            ", bookTitle='" + bookTitle + '\'' +
+            ", score=" + score +
+            ", comment='" + comment + '\'' +
+            ", createdDate=" + createdDate +
+            '}';
+    }
+
     public int getNo() {
         return no;
     }

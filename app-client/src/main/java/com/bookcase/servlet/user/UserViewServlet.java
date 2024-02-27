@@ -1,8 +1,8 @@
-package com.bookcase.servlet.review;
+package com.bookcase.servlet.user;
 
-import com.bookcase.dao.ReviewDao;
+import com.bookcase.dao.UserDao;
 import com.bookcase.menu.AbstractMenuHandler;
-import com.bookcase.vo.Review;
+import com.bookcase.vo.User;
 import com.util.Prompt;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/review/view")
-public class ReviewViewServlet extends HttpServlet {
+@WebServlet("/user/view")
+public class UserViewServlet extends HttpServlet {
 
-  private ReviewDao reviewDao;
+  private UserDao userDao;
 
   @Override
   public void init() throws ServletException {
-    this.reviewDao = (ReviewDao) this.getServletContext().getAttribute("reviewDao");
+    this.userDao = (UserDao) this.getServletContext().getAttribute("userDao");
   }
 
   @Override
@@ -36,45 +36,46 @@ public class ReviewViewServlet extends HttpServlet {
     out.println("  <title>비트캠프 데브옵스 5기</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("<h1>리뷰</h1>");
+    out.println("<h1>회원</h1>");
 
-    try {
+    try{
       int no = Integer.parseInt(request.getParameter("no"));
+      User user = userDao.findBy(no);
 
-      Review review = reviewDao.findBy(no);
-      if (review == null) {
-//          throw new Exception("<p>과제 번호가 유효하지 않습니다.</p>");
-        System.out.println("유효하지 않은 번호입니다.");
+      if (user == null) {
+        out.println("유효하지 않은 번호입니다.");
         out.println("</body>");
         out.println("</html>");
         return;
       }
-
-      out.println("<form action='/review/update' method='post'>");
+      out.println("<form action='/user/update'>");
       out.println("<div>");
-      out.printf("  번호: <input readonly name='no' type='text' value='%d'>\n", review.getNo());
+      out.printf("  번호: <input readonly name='no' type='text' value='%d'>\n", user.getNo());
       out.println("</div>");
       out.println("<div>");
-      out.printf("  책 제목: <input name='title' type='text' value='%s'>\n", review.getBookTitle());
+      out.printf("  이름: <input name='name' type='text' value='%s'>\n", user.getName());
       out.println("</div>");
       out.println("<div>");
-      out.printf("  별점: <input name='score' type='text' value='%d'>\n", review.getScore());
+      out.printf("  닉네임: <input name='nick' type='text' value='%s'>\n", user.getNick());
       out.println("</div>");
       out.println("<div>");
-      out.printf("  후기: <textarea name='comment'>%s</textarea>\n", review.getComment());
+      out.printf("  이메일: <input readonly name='email' type='text' value='%s'>\n", user.getEmail());
       out.println("</div>");
       out.println("<div>");
-      out.printf(
-          "  작성일: <input readonly name='created_date' type='text' value='%1$tY-%1$tm-%1$td %1$tH:%1$tM'>\n",
-          review.getCreatedDate());
+      out.printf("  비밀번호: <input name='password' type='password'>\n");
+      out.println("</div>");
+      out.println("<div>");
+      out.printf("  가입 날짜: <input name='created_date' type='text' value='%1$tY-%1$tm-%1$td'>\n",
+          user.getCreatedDate());
       out.println("</div>");
       out.println("<div>");
       out.println("  <button>변경</button>");
-      out.printf("  <a href='/review/delete?no=%d'>[삭제]</a>\n", no);
+      out.printf("  <a href='/user/delete?no=%d'>[삭제]</a>\n", no);
       out.println("</div>");
       out.println("</form>");
 
-      } catch (Exception e) {
+    } catch (Exception e){
+
       out.println("<p>조회 오류!</p>");
       out.println("<pre>");
       e.printStackTrace(out);
@@ -83,6 +84,5 @@ public class ReviewViewServlet extends HttpServlet {
 
     out.println("</body>");
     out.println("</html>");
-
   }
 }

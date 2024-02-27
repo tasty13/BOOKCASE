@@ -2,13 +2,8 @@ package com.bookcase.handler.user;
 
 import com.bookcase.dao.UserDao;
 import com.bookcase.menu.AbstractMenuHandler;
-import com.bookcase.menu.Menu;
-import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.User;
-import com.util.AnsiEscape;
 import com.util.Prompt;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserListHandler extends AbstractMenuHandler {

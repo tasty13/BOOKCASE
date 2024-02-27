@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
   public User findByEmailAndPassword(String email, String password) {
     try (Connection con = connectionPool.getConnection();
         PreparedStatement pstmt = con.prepareStatement(
-        "select user_no, email, name, created_date from users where email=? and password=sha2(?,256)")) {
+        "select user_no, email, name, nick, created_date from users where email=? and password=sha2(?,256)")) {
       pstmt.setString(1, email);
       pstmt.setString(2, password);
 
@@ -115,6 +115,7 @@ public class UserDaoImpl implements UserDao {
           user.setNo(rs.getInt("user_no"));
           user.setEmail(rs.getString("email"));
           user.setName(rs.getString("name"));
+          user.setNick(rs.getString("nick"));
           user.setCreatedDate(rs.getTimestamp("created_date").toLocalDateTime());
 
           return user;
@@ -129,15 +130,16 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public int update(User user) {
-    String sql = null;
-    if (user.getPassword().isEmpty()) {
-      sql = "update members set email=?, name=? where member_no=?";
-    } else {
-      sql = "update members set email=?, name=?, password=sha2(?,256) where member_no=?";
-    }
+//    String sql = null;
+//    if (user.getPassword().isEmpty()) {
+//      sql = "update members set email=?, name=? where member_no=?";
+//    } else {
+//      sql = "update members set email=?, name=?, password=sha2(?,256) where member_no=?";
+//    }
 
     try (Connection con = connectionPool.getConnection();
-        PreparedStatement pstmt = con.prepareStatement(sql)) {
+        PreparedStatement pstmt = con.prepareStatement(
+            "update members set email=?, name=?, nick=?, password=sha2(?,256) where member_no=?")) {
 
       pstmt.setString(1, user.getEmail());
       pstmt.setString(2, user.getName());
