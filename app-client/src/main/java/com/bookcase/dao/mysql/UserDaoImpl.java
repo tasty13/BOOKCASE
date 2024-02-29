@@ -130,22 +130,26 @@ public class UserDaoImpl implements UserDao {
 
   @Override
   public int update(User user) {
-//    String sql = null;
-//    if (user.getPassword().isEmpty()) {
-//      sql = "update members set email=?, name=? where member_no=?";
-//    } else {
-//      sql = "update members set email=?, name=?, password=sha2(?,256) where member_no=?";
-//    }
+    String sql = null;
+    if (user.getPassword().isEmpty()) {
+      sql = "update members set email=?, name=?, nick=? where member_no=?";
+    } else {
+      sql = "update members set email=?, name=?, nick=?, password=sha2(?,256) where member_no=?";
+    }
 
     try (Connection con = connectionPool.getConnection();
-        PreparedStatement pstmt = con.prepareStatement(
-            "update members set email=?, name=?, nick=?, password=sha2(?,256) where member_no=?")) {
+        PreparedStatement pstmt = con.prepareStatement(sql)) {
 
       pstmt.setString(1, user.getEmail());
       pstmt.setString(2, user.getName());
       pstmt.setString(3, user.getNick());
-      pstmt.setString(4, user.getPassword());
-      pstmt.setInt(5, user.getNo());
+
+      if (user.getPassword().isEmpty()) {
+        pstmt.setInt(4, user.getNo());
+      } else {
+        pstmt.setString(4, user.getPassword());
+        pstmt.setInt(5, user.getNo());
+      }
 
       return pstmt.executeUpdate();
 
