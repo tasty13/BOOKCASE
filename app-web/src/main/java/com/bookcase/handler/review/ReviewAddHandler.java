@@ -23,9 +23,9 @@ public class ReviewAddHandler implements MenuHandler {
 
     Review review = new Review();
     review.bookTitle = this.prompt.input("책 이름? ");
-    review.grade = this.prompt.input("책 별점? ");
+    review.score = this.prompt.input("책 별점? ");
     review.comment = this.prompt.input("책 후기? ");
-    review.createdDate = new Date();
+    review.createdAt = new Date();
 
     this.reviewRepository.add(review);
   }

@@ -30,7 +30,7 @@ public class UserAddHandler implements MenuHandler {
     user.name = this.prompt.input("이름? ");
     user.nick = this.prompt.input("닉네임? ");
     user.password = this.prompt.input("비밀번호? ");
-    user.createdDate = new Date();
+    user.createdAt = new Date();
     this.userRepository.users[this.userRepository.length++] = user;
   }
 }

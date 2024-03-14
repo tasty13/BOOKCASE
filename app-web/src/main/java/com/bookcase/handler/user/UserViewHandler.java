@@ -30,6 +30,6 @@ public class UserViewHandler implements MenuHandler {
     System.out.println("이메일: " + user.email);
     System.out.println("이름: " + user.name);
     System.out.println("닉네임: " + user.nick);
-    System.out.println("가입 날짜: " + user.createdDate);
+    System.out.println("가입 날짜: " + user.createdAt);
   }
 }

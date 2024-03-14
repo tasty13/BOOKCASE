@@ -28,8 +28,8 @@ public class ReviewViewHandler implements MenuHandler {
     }
 
     System.out.println("책 이름: " + review.bookTitle);
-    System.out.println("책 별점: " + review.grade);
+    System.out.println("책 별점: " + review.score);
     System.out.println("책 후기: " + review.comment);
-    System.out.println("작성 날짜: " + review.createdDate);
+    System.out.println("작성 날짜: " + review.createdAt);
   }
 }

@@ -24,8 +24,8 @@ public class BookCaseAddHandler implements MenuHandler {
 
 
         BookCase bookCase = new BookCase();
-        bookCase.caseTitle = this.prompt.input("북케이스 이름? ");
-        bookCase.createdDate = new Date();
+        bookCase.title = this.prompt.input("북케이스 이름? ");
+        bookCase.createdAt = new Date();
 
         this.bookCaseRepository.add(bookCase);
 

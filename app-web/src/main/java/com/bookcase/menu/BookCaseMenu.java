@@ -84,8 +84,8 @@ public class BookCaseMenu implements Menu {
     }
 
     BookCase bookCase = new BookCase();
-    bookCase.caseTitle = this.prompt.input("북케이스 이름? ");
-    bookCase.createdDate = new Date();
+    bookCase.title = this.prompt.input("북케이스 이름? ");
+    bookCase.createdAt = new Date();
 
     bookCases[length] = bookCase;
     length++;
@@ -95,7 +95,7 @@ public class BookCaseMenu implements Menu {
         System.out.printf("-15%s\t%s\n", "이름", "생성 날짜");
         for (int i = 0; i < this.length; i++) {
             BookCase bookCase = this.bookCases[i];
-            System.out.printf("-15%s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
+            System.out.printf("-15%s\t%2$tY-%2$tm-%2$td\n", bookCase.title, bookCase.createdAt);
         }
     }
 
@@ -103,8 +103,8 @@ public class BookCaseMenu implements Menu {
         System.out.println("북케이스 조회");
         for (int i=0;i<this.length;i++){
             BookCase bookCase = this.bookCases[i];
-            System.out.println("북케이스 이름: " + bookCase.caseTitle);
-            System.out.println("북케이스 생성 날짜: "+bookCase.createdDate);
+            System.out.println("북케이스 이름: " + bookCase.title);
+            System.out.println("북케이스 생성 날짜: "+bookCase.createdAt);
             System.out.println("--------------------------");
         }
     }
@@ -112,7 +112,7 @@ public class BookCaseMenu implements Menu {
         System.out.println("북케이스 이름 변경");
         int index = Integer.parseInt(this.prompt.input("번호? "));
         BookCase bookCase = this.bookCases[index];
-        bookCase.caseTitle = this.prompt.input("북케이스 이름(%s)? ", bookCase.caseTitle);
+        bookCase.title = this.prompt.input("북케이스 이름(%s)? ", bookCase.title);
     }
     void delete(){
         System.out.println("북케이스 삭제");

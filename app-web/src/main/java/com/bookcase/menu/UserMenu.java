@@ -1,6 +1,5 @@
 package com.bookcase.menu;
 
-import com.bookcase.vo.Review;
 import com.util.Prompt;
 import com.bookcase.vo.User;
 import java.util.Date;
@@ -80,7 +79,7 @@ public class UserMenu implements Menu {
     user.name = this.prompt.input("이름? ");
     user.nick = this.prompt.input("닉네임? ");
     user.password = this.prompt.input("비밀번호? ");
-    user.createdDate = new Date();
+    user.createdAt = new Date();
     this.users[this.length++] = user;
   }
 
@@ -91,7 +90,7 @@ public class UserMenu implements Menu {
     for (int i = 0; i < this.length; i++) {
       User member = this.users[i];
       System.out.printf("%-10s\t%30s\t%3$tY-%3$tm-%3$td\n",
-          member.nick, member.email, member.createdDate);
+          member.nick, member.email, member.createdAt);
     }
   }
 
@@ -102,7 +101,7 @@ public class UserMenu implements Menu {
       System.out.println("이메일: " + user.email);
       System.out.println("이름: " + user.name);
       System.out.println("닉네임: " + user.nick);
-      System.out.println("가입 날짜: " + user.createdDate);
+      System.out.println("가입 날짜: " + user.createdAt);
       System.out.println("------------------------");
     }
 

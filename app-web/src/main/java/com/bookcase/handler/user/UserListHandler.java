@@ -4,7 +4,6 @@ import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.User;
 import com.util.AnsiEscape;
-import com.util.Prompt;
 
 public class UserListHandler implements MenuHandler {
 
@@ -23,7 +22,7 @@ public class UserListHandler implements MenuHandler {
     for (int i = 0; i < this.userRepository.length; i++) {
       User member = this.userRepository.users[i];
       System.out.printf("%-10s\t%30s\t%3$tY-%3$tm-%3$td\n",
-              member.nick, member.email, member.createdDate);
+              member.nick, member.email, member.createdAt);
     }
   }
 }

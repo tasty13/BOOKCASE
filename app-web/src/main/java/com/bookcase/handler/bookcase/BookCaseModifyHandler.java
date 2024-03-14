@@ -28,8 +28,8 @@ public class BookCaseModifyHandler implements MenuHandler {
         }
 
         BookCase bookCase = new BookCase();
-        bookCase.caseTitle = this.prompt.input("북케이스 이름(%s)? ", old.caseTitle);
-        bookCase.createdDate = old.createdDate;
+        bookCase.title = this.prompt.input("북케이스 이름(%s)? ", old.title);
+        bookCase.createdAt = old.createdAt;
         bookCaseRepository.set(index, bookCase);
     }
 }

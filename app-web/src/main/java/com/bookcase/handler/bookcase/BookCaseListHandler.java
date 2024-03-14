@@ -4,7 +4,6 @@ import com.bookcase.menu.Menu;
 import com.bookcase.menu.MenuHandler;
 import com.bookcase.vo.BookCase;
 import com.util.AnsiEscape;
-import com.util.Prompt;
 
 public class BookCaseListHandler implements MenuHandler {
 
@@ -20,7 +19,7 @@ public class BookCaseListHandler implements MenuHandler {
 
         System.out.printf("%-15s\t%s\n", "이름", "생성 날짜");
         for (BookCase bookCase : this.bookCaseRepository.toArray()) {
-            System.out.printf("%-15s\t%2$tY-%2$tm-%2$td\n", bookCase.caseTitle, bookCase.createdDate);
+            System.out.printf("%-15s\t%2$tY-%2$tm-%2$td\n", bookCase.title, bookCase.createdAt);
         }
     }
 }

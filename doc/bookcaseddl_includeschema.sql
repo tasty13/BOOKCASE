@@ -34,7 +34,6 @@ DROP TABLE IF EXISTS `bookcase`.`ask_tobuy` RESTRICT;
 -- 회원
 CREATE TABLE `bookcase`.`user` (
   `no`         INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
-  `id`         VARCHAR(50)  NOT NULL COMMENT '아이디', -- 아이디
   `email`      VARCHAR(255) NULL     COMMENT '이메일', -- 이메일
   `name`       VARCHAR(50)  NOT NULL COMMENT '이름', -- 이름
   `nick`       VARCHAR(50)  NOT NULL COMMENT '닉네임', -- 닉네임
@@ -48,12 +47,6 @@ ALTER TABLE `bookcase`.`user`
   ADD CONSTRAINT `PK_user` -- 회원 기본키
   PRIMARY KEY (
   `no` -- 회원번호
-  );
-
--- 회원 유니크 인덱스
-CREATE UNIQUE INDEX `UIX_user`
-  ON `bookcase`.`user` ( -- 회원
-    `id` ASC -- 아이디
   );
 
 -- 회원 유니크 인덱스2
@@ -98,7 +91,7 @@ CREATE TABLE `bookcase`.`bookcase` (
   `user_no`    INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
   `title`      VARCHAR(255) NOT NULL COMMENT '제목', -- 제목
   `bookmark`   CHAR(1)      NULL     COMMENT '북마크여부', -- 북마크여부
-  `public`     CHAR(1)      NULL     COMMENT '공개여부', -- 공개여부
+  `open`       CHAR(1)      NULL     COMMENT '공개여부', -- 공개여부
   `created_at` DATETIME     NULL     COMMENT '생성일' -- 생성일
 )
 COMMENT '북케이스';

@@ -1,6 +1,5 @@
 package com.bookcase.menu;
 
-import com.bookcase.vo.BookCase;
 import com.util.Prompt;
 import com.bookcase.vo.Review;
 import java.util.Date;
@@ -88,9 +87,9 @@ public class ReviewMenu implements Menu {
 
     Review review = new Review();
     review.bookTitle = this.prompt.input("책 이름? ");
-    review.grade = this.prompt.input("책 별점? ");
+    review.score = this.prompt.input("책 별점? ");
     review.comment = this.prompt.input("책 후기? ");
-    review.createdDate = new Date();
+    review.createdAt = new Date();
 
     reviews[length] = review;
     length++;
@@ -101,7 +100,7 @@ public class ReviewMenu implements Menu {
     for (int i = 0; i < this.length; i++) {
       Review review = this.reviews[i];
       System.out.printf("%-20s\t%s\t%-30s\t%4$tY-%4$tm-%4$td\n",
-          review.bookTitle, review.grade, review.comment, review.createdDate);
+          review.bookTitle, review.score, review.comment, review.createdAt);
     }
   }
 
@@ -110,9 +109,9 @@ public class ReviewMenu implements Menu {
     for (int i=0;i<length;i++){
       Review review = reviews[i];
       System.out.println("책 이름: " + review.bookTitle);
-      System.out.println("책 별점: " + review.grade);
+      System.out.println("책 별점: " + review.score);
       System.out.println("책 후기: " + review.comment);
-      System.out.println("작성 날짜: " + review.createdDate);
+      System.out.println("작성 날짜: " + review.createdAt);
       System.out.println("--------------------------------");
     }
 
@@ -122,7 +121,7 @@ public class ReviewMenu implements Menu {
     int index = Integer.parseInt(this.prompt.input("번호: "));
     Review review = reviews[index];
     review.bookTitle = this.prompt.input("책 이름(%s)? ", review.bookTitle);
-    review.grade = this.prompt.input("책 별점(%s)? ", review.grade);
+    review.score = this.prompt.input("책 별점(%s)? ", review.score);
     review.comment = this.prompt.input("책 후기(%s)? ", review.comment);
   }
   void delete(){
