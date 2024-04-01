@@ -6,13 +6,13 @@
  */
 
 plugins {
-    // Apply the application plugin to add support for building a CLI application in Java.
-    id 'application'
-
-    // Eclipse IDE 관련 작업을 수행할 수 있는 플러그인
-    id 'eclipse'
     id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
+
+group = 'com.bookcase'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -20,13 +20,20 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:32.1.1-jre'
+    // AWS S3 API 라이브러리
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.688'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -36,11 +43,14 @@ java {
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = 'com.bookcase.App'
-}
+//application {
+//    // Define the main class for the application.
+//    mainClass = 'com.bookcase.App'
+//}
 
+tasks.named('bootBuildImage') {
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
@@ -50,23 +60,4 @@ tasks.named('test') {
 // 자바 소스를 컴파일 할 때 적용할 옵션
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-
-// eclipse 프로젝트 이름을 설정하기
-eclipse {
-    project {
-        name = "BOOKCASE" +
-                ""
-    }
-    jdt {
-        sourceCompatibility = 17 // 21버전꺼까지사용
-        targetCompatibility = 17 // jvm 21버전이상사용
-        javaRuntimeName = "JavaSE-17"
-    }
-}
-
-// Gradle로 애플리케이션을 실행했을 때 키보드 입력을 표준 입력 스트림으로 연결
-// 기본은 empty stdin 사용
-run {
-    standardInput = System.in
 }

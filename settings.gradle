@@ -11,5 +11,5 @@ plugins {
 }
 
 rootProject.name = 'com.bookcase'
-include('app-client')
+//include('app-client')
 include('app-web')
